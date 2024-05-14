@@ -1,0 +1,28 @@
+
+Multivariate Meta-Analysis Model (k = 4466; method: REML)
+
+    logLik    Deviance         AIC         BIC        AICc   
+-1578.0904   3156.1809   3164.1809   3189.7961   3164.1898   
+
+Variance Components:
+
+            estim    sqrt  nlvls  fixed                       factor 
+sigma^2.1  0.0000  0.0067     20     no                      Regioni 
+sigma^2.2  0.0002  0.0137    107     no  Regioni/Cod_provincia_ISTAT 
+
+Test for Residual Heterogeneity:
+QE(df = 4464) = 21690.9516, p-val < .0001
+
+Test of Moderators (coefficient 2):
+QM(df = 1) = 0.1588, p-val = 0.6903
+
+Model Results:
+
+         estimate      se     zval    pval    ci.lb   ci.ub      
+intrcpt    0.0366  0.0023  16.1324  <.0001   0.0322  0.0411  *** 
+sesso     -0.0004  0.0010  -0.3985  0.6903  -0.0023  0.0015      
+
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Time difference of 41.08053 secs

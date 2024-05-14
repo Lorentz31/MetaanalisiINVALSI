@@ -1,0 +1,58 @@
+
+rm(list = ls()); cat("/014")
+
+library(metafor)
+library(ggplot2)
+library(sf)
+
+Root <- "C:/Users/PC-LAB-03/Desktop/Metanalisi INVALSI/Analyses/Meta/"
+OutputsFolder <- paste0(Root, "Outputs/")
+
+#
+#"C:/Users/PC-LAB-03/Desktop/Metanalisi INVALSI/Analyses/ShapeFiles/shp"
+shp <- st_read(paste0("C:/Users/PC-LAB-03/Desktop/Metanalisi INVALSI/Analyses/ShapeFiles/shp/", "Limiti01012024/ProvCM01012024"))
+shp[shp$SIGLA=="NA", "SIGLA"] <- "Na"
+
+df <- read.csv("C:/Users/PC-LAB-03/Desktop/Metanalisi INVALSI/Analyses/Meta/Data/DataMatMods.csv")
+df <- df[df$Coort %in% 1:2,]
+names(df)[1] <- "SIGLA"
+
+t1 <- Sys.time()
+
+f <- rma.mv(yi = logvr, V = SE^2, mods=~sesso, random =~1|Regioni/Cod_provincia_ISTAT, data=df)
+summary(f)
+
+dt <- Sys.time() - t1
+dt
+
+
+
+
+levels(factor(df$SIGLA))==levels(factor(shp$SIGLA))
+
+df <- merge(shp, df, by="SIGLA", all=T)
+
+#
+setwd(OutputsFolder)
+png("Graph.png", width = 1300, height = 1500)
+
+ggplot(data = df)+
+  geom_sf(aes(fill=logvr))+
+  labs(title = "Italy Provinces")+
+  theme(plot.title = element_text(size=52, hjust = .5),
+        panel.background = element_blank(),
+        axis.text = element_blank(),
+        axis.title = element_blank(),
+        axis.ticks = element_blank(),
+        legend.position = "none"
+  )
+
+dev.off()
+
+#
+setwd(Root)
+
+#
+sink("SessionInfo.txt")
+sessionInfo()
+sink()
